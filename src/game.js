@@ -6,9 +6,15 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 
+// Constantes
+
 // Variables globales
 let canvasSize;
 let elementsSize;
+let playerPos = {
+	x: undefined,
+	y: undefined
+}
 
 // Para evitar problemas es mejor esperar a que el DOM se carge
 window.addEventListener('load', setCanvasSize);
@@ -45,9 +51,22 @@ function startGame() {
 			const emoji = emojis[element];
 			const posX = elementsSize * (colIndex + 1);
 			const posY = elementsSize * (rowIndex + 1);
+
+			if (element == 'O') {
+				playerPos.x = posX;
+				playerPos.y = posY;
+				console.log({playerPos});
+			}
+
 			game.fillText(emoji, posX, posY);
 		})
-	})
+	});
+
+	movePlayer();
+}
+
+function movePlayer() {
+	game.fillText(emojis['PLAYER'], playerPos.x, playerPos.y);
 }
 
 // Botones
@@ -67,6 +86,8 @@ function moveByKeys(event){
 }
 
 function moveUp(){
+	playerPos.y -= elementsSize;
+	movePlayer();
 	console.log('Hacia arriba')
 }
 
