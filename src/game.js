@@ -1,6 +1,10 @@
 // Nodos
-const canvas = document.querySelector('#game')
-const game = canvas.getContext('2d')
+const canvas = document.querySelector('#game');
+const game = canvas.getContext('2d');
+const btnUp = document.querySelector('#up');
+const btnLeft = document.querySelector('#left');
+const btnRight = document.querySelector('#right');
+const btnDown = document.querySelector('#down');
 
 // Variables globales
 let canvasSize;
@@ -46,3 +50,34 @@ function startGame() {
 	})
 }
 
+// Botones
+window.addEventListener('keydown', moveByKeys);
+btnUp.addEventListener('click', moveUp);
+btnDown.addEventListener('click', moveDown);
+btnLeft.addEventListener('click', moveLeft);
+btnRight.addEventListener('click', moveRight);
+
+// cuando llamas a una función por addevnetlistener siempre envia 
+// el argumento de evento
+function moveByKeys(event){
+	if(event.key == 'ArrowUp') moveUp();
+	else if (event.key == 'ArrowDown') moveDown();
+	else if (event.key == 'ArrowRight') moveRight();
+	else if (event.key == 'ArrowLeft') moveLeft();
+}
+
+function moveUp(){
+	console.log('Hacia arriba')
+}
+
+function moveDown(){
+	console.log('Hacia abajo')
+}
+
+function moveLeft(){
+	console.log('Hacia izquierda')
+}
+
+function moveRight(){
+	console.log('Hacia derecha')
+}
