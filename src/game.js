@@ -6,15 +6,20 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 
-// Constantes
+// Objetos
+const playerPos = {
+	x: undefined,
+	y: undefined
+}
+const giftPos = {
+	x: undefined,
+	y: undefined
+}
 
 // Variables globales
 let canvasSize;
 let elementsSize;
-let playerPos = {
-	x: undefined,
-	y: undefined
-}
+
 
 // Para evitar problemas es mejor esperar a que el DOM se carge
 window.addEventListener('load', setCanvasSize);
@@ -60,6 +65,10 @@ function startGame() {
 					console.log({playerPos});
 				}
 			}
+			else if (element == 'I') {
+				giftPos.x = posX;
+				giftPos	.y = posY;
+			}
 
 			game.fillText(emoji, posX, posY);
 		})
@@ -69,6 +78,15 @@ function startGame() {
 }
 
 function movePlayer() {
+	// Revisar si el jugador colisiona con el objetivo
+	const giftCollisionX = playerPos.x.toFixed(1) == giftPos.x.toFixed(1);
+	const giftCollisionY = playerPos.y.toFixed(1) == giftPos.y.toFixed(1);
+	const giftCollision = giftCollisionX && giftCollisionY;
+
+	if (giftCollision) {
+		console.log("colisionao")
+	}
+
 	game.fillText(emojis['PLAYER'], playerPos.x, playerPos.y);
 }
 
