@@ -19,6 +19,7 @@ const giftPos = {
 // Variables globales
 let canvasSize;
 let elementsSize;
+let enemyPositions = [];
 
 
 // Para evitar problemas es mejor esperar a que el DOM se carge
@@ -51,7 +52,10 @@ function startGame() {
 	const mapRows = currentMap.trim().split('\n')
 	const mapRowCol = mapRows.map(row => row.trim().split(''))
 
+	// Reset map
+	enemyPositions = [];
 	game.clearRect(0, 0, canvasSize, canvasSize);
+
 	mapRowCol.forEach((row, rowIndex) => {
 		row.forEach((element, colIndex) => {
 			const emoji = emojis[element];
@@ -69,6 +73,12 @@ function startGame() {
 				giftPos.x = posX;
 				giftPos	.y = posY;
 			}
+			else if(element == 'X') {
+				enemyPositions.push({
+					x: posX,
+					y: posY
+				})
+			}
 
 			game.fillText(emoji, posX, posY);
 		})
@@ -85,6 +95,16 @@ function movePlayer() {
 
 	if (giftCollision) {
 		console.log("colisionao")
+	}
+
+	const enemyCollision = enemyPositions.find(enemy => {
+		const enemyCollisionX = enemy.x.toFixed(1) == playerPos.x.toFixed(1);
+		const enemyCollisionY = enemy.y.toFixed(1) == playerPos.y.toFixed(1);
+		return enemyCollisionX && enemyCollisionY
+	});
+
+	if (enemyCollision) {
+		console.log("Chocaste con un enemigo")
 	}
 
 	game.fillText(emojis['PLAYER'], playerPos.x, playerPos.y);
