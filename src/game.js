@@ -88,26 +88,47 @@ function moveByKeys(event){
 	else if (event.key == 'ArrowLeft') moveLeft();
 }
 
+function checkUpCollision() {
+	return playerPos.y < elementsSize;
+}
+
+function checkDownCollision() {
+	return (playerPos.y + elementsSize) > canvasSize;
+}
+
+function checkRightCollision() {
+	return (playerPos.x + elementsSize) > canvasSize;
+}
+
+function checkLeftCollision() {
+	return (playerPos.x - elementsSize) < elementsSize;
+}
+
 function moveUp(){
-	playerPos.y -= elementsSize;
-	startGame();
-	console.log('Hacia arriba')
+	//condición para evitar que se salga del mapa
+	if (!checkUpCollision()){
+		playerPos.y -= elementsSize;
+		startGame();
+	}
 }
 
 function moveDown(){
-	playerPos.y += elementsSize;
-	startGame();
-	console.log('Hacia abajo')
+	if(!checkDownCollision()) {
+		playerPos.y += elementsSize;
+		startGame();
+	}
 }
 
 function moveLeft(){
-	playerPos.x -= elementsSize;
-	startGame();
-	console.log('Hacia izquierda')
+	if(!checkLeftCollision()) {
+		playerPos.x -= elementsSize;
+		startGame();
+	}
 }
 
 function moveRight(){
-	playerPos.x += elementsSize;
-	startGame();
-	console.log('Hacia derecha')
+	if(!checkRightCollision()) {
+		playerPos.x += elementsSize;
+		startGame();
+	}
 }
