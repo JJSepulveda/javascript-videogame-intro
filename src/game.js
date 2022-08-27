@@ -20,6 +20,7 @@ const giftPos = {
 let canvasSize;
 let elementsSize;
 let enemyPositions = [];
+let level = 0;
 
 
 // Para evitar problemas es mejor esperar a que el DOM se carge
@@ -48,7 +49,13 @@ function startGame() {
 	game.font = elementsSize + 'px Verdana';
 	game.textAlign = 'end';
 
-	const currentMap = maps[0]
+	const currentMap = maps[level]
+
+	if (!currentMap) {
+		gameOver();
+		return;
+	}
+
 	const mapRows = currentMap.trim().split('\n')
 	const mapRowCol = mapRows.map(row => row.trim().split(''))
 
@@ -94,7 +101,7 @@ function movePlayer() {
 	const giftCollision = giftCollisionX && giftCollisionY;
 
 	if (giftCollision) {
-		console.log("colisionao")
+		levelWin();
 	}
 
 	const enemyCollision = enemyPositions.find(enemy => {
@@ -108,6 +115,16 @@ function movePlayer() {
 	}
 
 	game.fillText(emojis['PLAYER'], playerPos.x, playerPos.y);
+}
+
+function levelWin() {
+	console.log('Pasaste de nivel');
+	level++;
+	startGame();
+}
+
+function gameOver() {
+	console.log("!Terminaste el juego")
 }
 
 // Botones
@@ -139,7 +156,7 @@ function checkRightCollision() {
 }
 
 function checkLeftCollision() {
-	return (playerPos.x - elementsSize) < elementsSize;
+	return playerPos.x < elementsSize;
 }
 
 function moveUp(){
