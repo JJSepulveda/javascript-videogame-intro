@@ -6,6 +6,7 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLifes = document.querySelector('#lifes');
+const spanTime = document.querySelector('#time');
 
 // Objetos
 const playerPos = {
@@ -23,6 +24,10 @@ let elementsSize;
 let enemyPositions = [];
 let level = 0;
 let lifes = 3;
+
+let timeStart;
+let timePlayer;
+let timeInterval;
 
 
 // Para evitar problemas es mejor esperar a que el DOM se carge
@@ -56,6 +61,11 @@ function startGame() {
 	if (!currentMap) {
 		gameOver();
 		return;
+	}
+
+	if (!timeStart) {
+		timeStart = Date.now();
+		timeInterval = setInterval(show_time, 100);
 	}
 
 	const mapRows = currentMap.trim().split('\n')
@@ -130,6 +140,8 @@ function levelWin() {
 
 function gameOver() {
 	console.log("!Terminaste el juego")
+	// Detenemos el intervalo que imprime el contador
+	clearInterval(timeInterval);
 }
 
 function levelFail() {
@@ -138,8 +150,8 @@ function levelFail() {
 	if (lifes <= 0){
 		level = 0;
 		lifes = 3;
+		timeStart = undefined;
 	}
-	console.log(lifes);
 	playerPos.x = undefined;
 	playerPos.y = undefined;
 	startGame();
@@ -153,7 +165,10 @@ function show_lifes() {
 	// resetear el texto del nodo
 	spanLifes.innerHTML = "";
 	heartsArry.forEach(heart => spanLifes.append(heart));
-	
+}
+
+function show_time() {
+	spanTime.innerHTML = Date.now() - timeStart;
 }
 
 // Botones
