@@ -5,6 +5,7 @@ const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
+const spanLifes = document.querySelector('#lifes');
 
 // Objetos
 const playerPos = {
@@ -63,6 +64,9 @@ function startGame() {
 	// Reset map
 	enemyPositions = [];
 	game.clearRect(0, 0, canvasSize, canvasSize);
+
+	// Print game info
+	show_lifes();
 
 	mapRowCol.forEach((row, rowIndex) => {
 		row.forEach((element, colIndex) => {
@@ -139,6 +143,17 @@ function levelFail() {
 	playerPos.x = undefined;
 	playerPos.y = undefined;
 	startGame();
+}
+
+function show_lifes() {
+	// Crear una array con la cantidad de elementos de un array
+	// .fill() inserta algo en cada posición.
+	const heartsArry = Array(lifes).fill(emojis['HEART']);
+
+	// resetear el texto del nodo
+	spanLifes.innerHTML = "";
+	heartsArry.forEach(heart => spanLifes.append(heart));
+	
 }
 
 // Botones
