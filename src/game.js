@@ -21,6 +21,7 @@ let canvasSize;
 let elementsSize;
 let enemyPositions = [];
 let level = 0;
+let lifes = 3;
 
 
 // Para evitar problemas es mejor esperar a que el DOM se carge
@@ -111,7 +112,7 @@ function movePlayer() {
 	});
 
 	if (enemyCollision) {
-		console.log("Chocaste con un enemigo")
+		levelFail()
 	}
 
 	game.fillText(emojis['PLAYER'], playerPos.x, playerPos.y);
@@ -125,6 +126,19 @@ function levelWin() {
 
 function gameOver() {
 	console.log("!Terminaste el juego")
+}
+
+function levelFail() {
+	console.log("Chocaste con un enemigo")
+	lifes--;
+	if (lifes <= 0){
+		level = 0;
+		lifes = 3;
+	}
+	console.log(lifes);
+	playerPos.x = undefined;
+	playerPos.y = undefined;
+	startGame();
 }
 
 // Botones
