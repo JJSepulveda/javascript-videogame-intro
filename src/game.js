@@ -7,6 +7,11 @@ const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLifes = document.querySelector('#lifes');
 const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const pResult = document.querySelector('#result');
+
+// Constantes
+const RECORD_TIME_NAME = 'record_time'
 
 // Objetos
 const playerPos = {
@@ -66,6 +71,7 @@ function startGame() {
 	if (!timeStart) {
 		timeStart = Date.now();
 		timeInterval = setInterval(show_time, 100);
+		show_record();
 	}
 
 	const mapRows = currentMap.trim().split('\n')
@@ -141,7 +147,7 @@ function levelWin() {
 function gameOver() {
 	console.log("!Terminaste el juego")
 	// Detenemos el intervalo que imprime el contador
-	clearInterval(timeInterval);
+	gameWin();
 }
 
 function levelFail() {
@@ -157,6 +163,30 @@ function levelFail() {
 	startGame();
 }
 
+function gameWin() {
+	console.log("Terminaste el juego")
+	clearInterval(timeInterval);
+	
+	const recordTime = localStorage.getItem(RECORD_TIME_NAME);
+	const playerTime = Date.now() - timeStart;
+
+	if (recordTime) {
+		if (recordTime >= playerTime) {
+			localStorage.setItem(RECORD_TIME_NAME, playerTime)
+			pResult.innerHTML = "superaste el record";
+		}
+		else {
+			pResult.innerHTML = "No superaste el record";
+		}
+	}
+	else {
+		localStorage.setItem(RECORD_TIME_NAME, playerTime)
+		pResult.innerHTML = "Primera vez?";
+	}
+
+	console.log({recordTime, playerTime})
+}
+
 function show_lifes() {
 	// Crear una array con la cantidad de elementos de un array
 	// .fill() inserta algo en cada posición.
@@ -169,6 +199,10 @@ function show_lifes() {
 
 function show_time() {
 	spanTime.innerHTML = Date.now() - timeStart;
+}
+
+function show_record() {
+	spanRecord.innerHTML = localStorage.getItem(RECORD_TIME_NAME);
 }
 
 // Botones
