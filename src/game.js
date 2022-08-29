@@ -47,12 +47,15 @@ function setCanvasSize() {
 		canvasSize = window.innerHeight * 0.8;	
 	}
 
+	canvasSize = Number(canvasSize.toFixed(2))
 	canvas.setAttribute('width', canvasSize);
 	canvas.setAttribute('height', canvasSize);
 
 	elementsSize = canvasSize / 10;
 
-	console.log({canvasSize, elementsSize});
+	// reset the player position
+	playerPos.x = undefined;
+	playerPos.y = undefined;
 
 	startGame();
 }
@@ -94,7 +97,6 @@ function startGame() {
 				if(!playerPos.x && !playerPos.y) {
 					playerPos.x = posX;
 					playerPos.y = posY;
-					console.log({playerPos});
 				}
 			}
 			else if (element == 'I') {
@@ -222,7 +224,7 @@ function moveByKeys(event){
 }
 
 function checkUpCollision() {
-	return playerPos.y < elementsSize;
+	return (playerPos.y - elementsSize) < elementsSize;
 }
 
 function checkDownCollision() {
@@ -234,7 +236,7 @@ function checkRightCollision() {
 }
 
 function checkLeftCollision() {
-	return playerPos.x < elementsSize;
+	return (playerPos.x - elementsSize) < elementsSize;
 }
 
 function moveUp(){
